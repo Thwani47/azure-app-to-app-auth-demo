@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useFetchTodos } from "./hooks/useFetchTodos";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { data: todos, isLoading, isError, error } = useFetchTodos();
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="flex flex-col">
+      <div className="mx-auto max-sm:space-y-2 max-sm:flex max-sm:flex-col max-sm:mb-4">
+        <input
+          type="text"
+          className="h-8 rounded p-2"
+          placeholder="Enter todo title "
+        />
+        <button className="ml-2 bg-blue-600 p-1 rounded h-8 w-24">
+          Add Todo{" "}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <h1 className="text-3xl font-bold mx-auto mb-2 mt-2">Todos</h1>
+      <div className="mx-auto">
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : isError ? (
+          <h1>Error occured: {JSON.stringify(error)}</h1>
+        ) : todos.length === 0 ? (
+          <h1>No todos found. Create a todo</h1>
+        ) : (
+          todos.map((todo: Todo) => <div key={todo.id}>Todo</div>)
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
