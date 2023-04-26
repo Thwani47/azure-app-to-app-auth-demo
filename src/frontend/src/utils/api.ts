@@ -1,10 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL;
-
-console.log(import.meta.env)
-
-console.log(baseURL);
+const baseURL = import.meta.env.DEV
+  ? "https://localhost:7016"
+  : "https://azure-app-to-app-auth-demo-api.azurewebsites.net";
 
 const client: AxiosInstance = axios.create({
   baseURL,
