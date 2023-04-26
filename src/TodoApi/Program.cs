@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<TodoDb>(options => options.UseInMemoryDatabase("To
 
 var app = builder.Build();
 
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+});
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
 
@@ -49,8 +54,8 @@ app.MapPut("/todo/{id:guid}", async (Guid id, Todo update, TodoDb db) =>
         return Results.NotFound();
     }
 
-    todo.Title = update.Title == null ? update.Title : todo.Title;
-    todo.IsComplete = update.IsComplete ;
+    todo.Title = update.Title == null ?   todo.Title : update.Title;
+    todo.IsComplete = update.IsComplete;
 
     await db.SaveChangesAsync();
     return Results.NoContent();
