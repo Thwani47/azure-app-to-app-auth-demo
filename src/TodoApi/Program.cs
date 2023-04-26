@@ -49,7 +49,7 @@ app.MapPut("/todo/{id:guid}", async (Guid id, Todo update, TodoDb db) =>
         return Results.NotFound();
     }
 
-    todo.Title = update.Title ? update.Title : todo.Title;
+    todo.Title = update.Title == null ? update.Title : todo.Title;
     todo.IsComplete = update.IsComplete ;
 
     await db.SaveChangesAsync();

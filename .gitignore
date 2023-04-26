@@ -17,6 +17,18 @@ psd
 thumb
 sketch
 
+
+### DotnetCore ###
+# .NET Core build folders
+bin/
+obj/
+
+# Common node modules locations
+/node_modules
+/wwwroot/node_modules
+
+# End of https://www.toptal.com/developers/gitignore/api/dotnetcore
+
 # End of https://www.toptal.com/developers/gitignore/api/react
 
 deploy/
