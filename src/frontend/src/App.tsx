@@ -3,26 +3,32 @@ import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import { useFetchTodos } from "./hooks/useFetchTodos";
 import { useAddTodo } from "./hooks/useAddTodo";
+import { useDeleteTodo } from "./hooks/useDeleteTodo";
 
 function App() {
   const [title, setTitle] = useState("");
-  const { data: todos, isLoading : isFetchingTodos, isError, error } = useFetchTodos();
-  const  {mutate} = useAddTodo()
+  const {
+    data: todos,
+    isLoading: isFetchingTodos,
+    isError,
+    error
+  } = useFetchTodos();
+  const { mutate: addTodo } = useAddTodo();
+  const { mutate: deleteTodo } = useDeleteTodo();
 
-  const handleChange = (evt) => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(evt.target.value);
   };
 
-
   const handleSubmit = () => {
-    if (title === ''){
-      alert('Please enter a title')
+    if (title === "") {
+      alert("Please enter a title");
       return;
     }
 
     const id = uuidv4();
-    mutate({id, title, isComplete: false})
-    setTitle('')
+    addTodo({ id, title, isComplete: false });
+    setTitle("");
   };
 
   return (
@@ -51,10 +57,17 @@ function App() {
         ) : todos.length === 0 ? (
           <h1>No todos found. Create a todo</h1>
         ) : (
-          todos.map((todo: Todo) => <div key={todo.id} className="flex space-x-2 mb-2 justify-between">
-            <h1 className="text-xl">{todo.title}</h1>
-            <button className="bg-red-500 p-1 rounded h-8 ">Delete</button>
-          </div>)
+          todos.map((todo: Todo) => (
+            <div key={todo.id} className="flex space-x-2 mb-2 justify-between">
+              <h1 className="text-xl">{todo.title}</h1>
+              <button
+                className="bg-red-500 p-1 rounded h-8"
+                onClick={() => deleteTodo(todo.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))
         )}
       </div>
     </div>
