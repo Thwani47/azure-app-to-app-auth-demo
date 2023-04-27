@@ -17,3 +17,5 @@ Compress-Archive -Path .\deploy\$pacakgeName\* -DestinationPath .\deploy\$pacakg
 # ZIP deploy the web app
 az webapp deploy --resource-group $resourceGroup --name $apiApplicationName --src-path .\deploy\$pacakgeName.zip --type zip --async true
 
+az webapp cors add --resource-group $resourceGroup --name $apiApplicationName --allowed-origins 'https://azure-app-to-app-auth-demo-client.azurewebsites.net'
+

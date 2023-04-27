@@ -32,3 +32,5 @@ obj/
 # End of https://www.toptal.com/developers/gitignore/api/react
 
 deploy/
+
+src/TodoApi/appsettings.Development.json
